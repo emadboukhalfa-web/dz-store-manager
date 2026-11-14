@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(CASHIER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sales Sale[]
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  CASHIER
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  createdAt DateTime  @default(now())
+  products  Product[]
+}
+
+model Product {
+  id          String            @id @default(cuid())
+  name        String
+  sku         String            @unique
+  barcode     String?
+  categoryId  String?
+  category    Category?         @relation(fields: [categoryId], references: [id])
+  stock       Int               @default(0)
+  minStock    Int               @default(5)
+  buyPrice    Float
+  sellPrice   Float
+  taxRate     Float             @default(0)
+  active      Boolean           @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  saleItems   SaleItem[]
+  movements   InventoryMove[]
+}
+
+model Supplier {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  email     String?
+  address   String?
+  createdAt DateTime @default(now())
+  purchases Purchase[]
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  email     String?
+  createdAt DateTime @default(now())
+  sales     Sale[]
+}
+
+model Sale {
+  id          String      @id @default(cuid())
+  invoiceCode String      @unique
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  customerId  String?
+  customer    Customer?   @relation(fields: [customerId], references: [id])
+  total       Float
+  paid        Float
+  status      SaleStatus  @default(PAID)
+  createdAt   DateTime    @default(now())
+  items       SaleItem[]
+}
+
+enum SaleStatus {
+  PAID
+  PARTIAL
+  PENDING
+  CANCELLED
+}
+
+model SaleItem {
+  id        String  @id @default(cuid())
+  saleId    String
+  sale      Sale    @relation(fields: [saleId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Float
+  total     Float
+}
+
+model Purchase {
+  id          String    @id @default(cuid())
+  supplierId  String
+  supplier    Supplier  @relation(fields: [supplierId], references: [id])
+  invoiceCode String
+  total       Float
+  createdAt   DateTime  @default(now())
+}
+
+model InventoryMove {
+  id        String    @id @default(cuid())
+  productId String
+  product   Product   @relation(fields: [productId], references: [id])
+  type      MoveType
+  quantity  Int
+  reason    String?
+  createdAt DateTime  @default(now())
+}
+
+enum MoveType {
+  IN
+  OUT
+  ADJUSTMENT
+}
+
+model BusinessSetting {
+  id              String   @id @default(cuid())
+  companyName     String
+  phone           String?
+  address         String?
+  currency        String   @default("DZD")
+  vatRate         Float    @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
