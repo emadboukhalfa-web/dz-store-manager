@@ -1,11 +1,14 @@
-import { BarChart3, BriefcaseBusiness, PackageSearch, ShoppingBag, Users } from "lucide-react";
+import Link from "next/link";
+import { Building2, CreditCard, LayoutDashboard, Package, Receipt, ShoppingCart, TrendingUp, Users } from "lucide-react";
 
 const items = [
-  { label: "Tableau de bord", href: "#", active: true, icon: BarChart3 },
-  { label: "Produits", href: "#", icon: PackageSearch },
-  { label: "Ventes", href: "#", icon: ShoppingBag },
-  { label: "Clients", href: "#", icon: Users },
-  { label: "Fournisseurs", href: "#", icon: BriefcaseBusiness }
+  { label: "Tableau de bord", href: "/", icon: LayoutDashboard },
+  { label: "Produits", href: "/products", icon: Package },
+  { label: "POS", href: "/pos", icon: ShoppingCart },
+  { label: "Factures", href: "/invoices", icon: Receipt },
+  { label: "Clients", href: "/customers", icon: Users },
+  { label: "Fournisseurs", href: "/suppliers", icon: Building2 },
+  { label: "Rapports", href: "/reports", icon: TrendingUp }
 ];
 
 export function Sidebar() {
@@ -22,17 +25,15 @@ export function Sidebar() {
       </div>
 
       <nav className="space-y-2">
-        {items.map(({ label, href, active, icon: Icon }) => (
-          <a
+        {items.map(({ label, href, icon: Icon }) => (
+          <Link
             key={label}
             href={href}
-            className={`flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium transition ${
-              active ? "bg-brand-600 text-white" : "text-slate-300 hover:bg-slate-800 hover:text-white"
-            }`}
+            className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
           >
             <Icon size={18} />
             {label}
-          </a>
+          </Link>
         ))}
       </nav>
 

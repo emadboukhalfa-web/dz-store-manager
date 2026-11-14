@@ -18,3 +18,22 @@ export const mockInvoices = [
   { id: "FAC-2026-003", customer: "M. Karim Ouali", total: 5400, status: "Payée", date: "12/11/2026" },
   { id: "FAC-2026-004", customer: "M. Yacine Ali", total: 35600, status: "Annulée", date: "11/11/2026" }
 ] as const;
+
+export const mockCustomers = [
+  { id: "CL-001", name: "M. Amine Bensalem", phone: "+213 555 12 34 56", city: "Alger", totalSpent: 185000, lastPurchase: "14/11/2026" },
+  { id: "CL-002", name: "Boutique Souhila", phone: "+213 560 99 88 77", city: "Oran", totalSpent: 240500, lastPurchase: "13/11/2026" },
+  { id: "CL-003", name: "M. Karim Ouali", phone: "+213 670 33 22 11", city: "Constantine", totalSpent: 92000, lastPurchase: "12/11/2026" }
+] as const;
+
+export const mockSuppliers = [
+  { id: "FR-001", name: "Dairy Plus", phone: "+213 770 11 22 33", contact: "Mr. Hakim", status: "Actif" },
+  { id: "FR-002", name: "Prime Distribution", phone: "+213 780 44 55 66", contact: "Mme. Selma", status: "Actif" },
+  { id: "FR-003", name: "City Food", phone: "+213 790 77 88 99", contact: "Mr. Idriss", status: "En attente" }
+] as const;
+
+export const mockReports = [
+  { label: "Ventes du jour", value: "215 000 DZD", change: "+9.4%" },
+  { label: "Marges", value: "48 000 DZD", change: "+6.1%" },
+  { label: "Moyenne panier", value: "2 640 DZD", change: "+3.2%" },
+  { label: "Retours", value: "3", change: "-1" }
+] as const;
